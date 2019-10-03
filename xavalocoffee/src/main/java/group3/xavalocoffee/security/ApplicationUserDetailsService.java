@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
+
 @Service
 public class ApplicationUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
     private final AuthorityRepository authorityRepository;
 
-    public ApplicationUserDetailsService(AccountRepository accountRepository,
-                                         AuthorityRepository authorityRepository) {
+    public ApplicationUserDetailsService(AccountRepository accountRepository, AuthorityRepository authorityRepository) {
         this.accountRepository = accountRepository;
         this.authorityRepository = authorityRepository;
     }
@@ -29,18 +29,16 @@ public class ApplicationUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findByUsername(username);
 
-        if(account == null){
+        if (account == null) {
             throw new UsernameNotFoundException(username);
         }
         if(account.isDisable() == true){
             return null;
         }
         Collection<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(authorityRepository.findById(account.getRole())
-                        .getAuthorityName()));
+                new SimpleGrantedAuthority(authorityRepository.findById(account.getRole()).getAuthorityName()));
 
-        return new org.springframework.security.core.userdetails.User(account.getUsername(),
-                account.getPassword(),
+        return new org.springframework.security.core.userdetails.User(account.getUsername(), account.getPassword(),
                 authorities);
     }
 }
