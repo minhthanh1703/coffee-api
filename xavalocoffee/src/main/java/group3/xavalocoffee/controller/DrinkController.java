@@ -41,7 +41,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "findAllDrink");
         }
@@ -59,7 +59,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "findDrinkByCategory");
         }
@@ -77,7 +77,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "getDrinkById");
         }
@@ -95,7 +95,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "createDrink");
         }
@@ -113,7 +113,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "updateDrink");
         }
@@ -131,7 +131,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "deleteDrink");
         }
@@ -149,7 +149,7 @@ public class DrinkController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "unDeleteDrink");
         }

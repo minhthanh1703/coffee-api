@@ -4,6 +4,7 @@ import group3.xavalocoffee.constant.Constant;
 
 import group3.xavalocoffee.dto.ServiceResponseDTO;
 import group3.xavalocoffee.entities.Account;
+import group3.xavalocoffee.security.JWTVerifier;
 import group3.xavalocoffee.service.AccountService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,11 +44,32 @@ public class AccountController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "findAllAccount");
         }
     }
+
+    @GetMapping(Constant.ACCOUNT_API +"/getInfo")
+    public ResponseEntity<ServiceResponseDTO> infoAccount(@RequestHeader String Authorization){
+        logger.info(Constant.BEGIN + "infoAccount");
+        ServiceResponseDTO response = new ServiceResponseDTO();
+        try{
+            String token = Authorization.substring(7);
+            String username = JWTVerifier.getDecodedJWT(token).getSubject();
+            Account account = accountService.findAccountByUsername(username);
+            response.setData(account);
+            return new ResponseEntity(response, HttpStatus.OK);
+        }catch (Exception ex){
+            logger.error(ex);
+            response.setMessage(ex.getMessage());
+            response.setStatus(ServiceResponseDTO.Status.FAILED);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+        }finally {
+            logger.info(Constant.END + "infoAccount");
+        }
+    }
+
 
     @PostMapping(Constant.ACCOUNT_API)
     public ResponseEntity<ServiceResponseDTO> createAccount(@RequestBody Account account){
@@ -60,7 +83,7 @@ public class AccountController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "createAccount");
         }
@@ -78,7 +101,7 @@ public class AccountController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "updateAccount");
         }
@@ -96,7 +119,7 @@ public class AccountController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "deleteAccount");
         }
@@ -114,7 +137,7 @@ public class AccountController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "unDeleteAccount");
         }
