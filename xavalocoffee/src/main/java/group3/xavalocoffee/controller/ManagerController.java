@@ -38,18 +38,37 @@ public class ManagerController {
         logger.info(Constant.BEGIN + "getInfoTable");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
-            BillResponseDTO dto = managerService.getInfoOfBill(tableNumber);
+            BillResponseDTO dto = managerService.getInfoOfTable(tableNumber);
             response.setData(dto);
             return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception ex) {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "getInfoTable");
         }
     }
+
+    @GetMapping(Constant.MANAGER_API + "/infobill/{billId}")
+    public ResponseEntity<ServiceResponseDTO> getInfoBill(@PathVariable int billId) {
+        logger.info(Constant.BEGIN + "getInfoTable");
+        ServiceResponseDTO response = new ServiceResponseDTO();
+        try {
+            BillResponseDTO dto = managerService.getInfoOfBill(billId);
+            response.setData(dto);
+            return new ResponseEntity(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error(ex);
+            response.setMessage(ex.getMessage());
+            response.setStatus(ServiceResponseDTO.Status.FAILED);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+        } finally {
+            logger.info(Constant.END + "getInfoTable");
+        }
+    }
+
 
     @PostMapping(Constant.MANAGER_API + "/addDrinkForTable")
     public ResponseEntity addDrinkForTable(@RequestBody DrinkOrderRequestDTO requestDTO) {
@@ -63,7 +82,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "addDrinkForTable");
         }
@@ -81,7 +100,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "addCount");
         }
@@ -99,7 +118,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "subCount");
         }
@@ -117,7 +136,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "switchTables");
         }
@@ -135,7 +154,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "removeDrink");
         }
@@ -153,7 +172,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "addDiscount");
         }
@@ -173,7 +192,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "payment");
         }
@@ -194,7 +213,7 @@ public class ManagerController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } finally {
             logger.info(Constant.END + "statisticByUsername");
         }

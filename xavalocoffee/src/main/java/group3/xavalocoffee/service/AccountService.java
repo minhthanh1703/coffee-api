@@ -31,6 +31,15 @@ public class AccountService {
 
     }
 
+    public Account findAccountByUsername(String username){
+        logger.info(Constant.BEGIN + "findAccountByUsername");
+        try{
+            return accountRepository.findByUsername(username);
+        }finally {
+            logger.info(Constant.END + "findAccountByUsername");
+        }
+    }
+
     public void createAccount(Account account) throws Exception {
         logger.info(Constant.BEGIN + "createAccount");
         try{

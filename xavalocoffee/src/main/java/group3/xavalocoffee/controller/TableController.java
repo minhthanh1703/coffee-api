@@ -41,7 +41,7 @@ public class TableController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "findAllTable");
         }
@@ -77,7 +77,7 @@ public class TableController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "searchTableEmpty");
         }
@@ -95,7 +95,7 @@ public class TableController {
             logger.error(ex);
             response.setMessage(ex.getMessage());
             response.setStatus(ServiceResponseDTO.Status.FAILED);
-            return new ResponseEntity(response,HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
         }finally {
             logger.info(Constant.END + "createTable");
         }

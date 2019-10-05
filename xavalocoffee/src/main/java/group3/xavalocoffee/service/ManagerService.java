@@ -41,8 +41,8 @@ public class ManagerService {
     @Autowired
     TableService tableService;
 
-    public BillResponseDTO getInfoOfBill(int tableNumber) throws Exception{
-        logger.info(Constant.BEGIN + "getInfoOfBill");
+    public BillResponseDTO getInfoOfTable(int tableNumber) throws Exception{
+        logger.info(Constant.BEGIN + "getInfoOfTable");
         try {
             tTable table = tableService.findByTableNumber(tableNumber);
             if(table.isStatus() == false){
@@ -73,9 +73,42 @@ public class ManagerService {
                     bill.getUsernameSatff(), bill.getCreateAt(), infoDTOList);
             return dto;
         }finally {
+            logger.info(Constant.END + "getInfoOfTable");
+        }
+    }
+
+    public BillResponseDTO getInfoOfBill(int billId) throws Exception{
+        logger.info(Constant.BEGIN + "getInfoOfBill");
+        try {
+            Bill bill = billRepository.findById(billId).orElse(null);
+            if(bill == null){
+                throw new Exception("Bill is null");
+            }
+            List<BillInfo> infoList = billInfoRepository.findByBillIdAndCountGreaterThan(bill.getId(), 0);
+            List<BillInfoDTO> infoDTOList = new ArrayList<>();
+            float totalPrice = 0;
+
+            for(BillInfo info : infoList){
+                Drink drink = drinkRepository.findById(info.getDrinkId()).orElse(null);
+                if(drink.equals(null)){
+                    throw new Exception("DrinkID not found");
+                }
+                float subPrice = drink.getPrice() *  info.getCount();
+                totalPrice = totalPrice + subPrice;
+                BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getImage());
+                infoDTOList.add(billInfoDTO);
+            }
+            //tong tien da tru giam gia
+            totalPrice = totalPrice *(1- (bill.getDiscount()/100));
+
+            BillResponseDTO dto = new BillResponseDTO(bill.getId() ,bill.getTableNumber(), bill.isPaided(), totalPrice, bill.getDiscount(),
+                    bill.getUsernameSatff(), bill.getCreateAt(), infoDTOList);
+            return dto;
+        }finally {
             logger.info(Constant.END + "getInfoOfBill");
         }
     }
+
 
     public void createNewBillWithTable(tTable table) throws Exception{
         logger.info(Constant.BEGIN + "createNewBillWithTable");
