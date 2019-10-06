@@ -77,14 +77,10 @@ public class ManagerService {
         }
     }
 
-    public BillResponseDTO getInfoOfBill(int billId) throws Exception{
+    public List<BillInfoDTO> getInfoOfBill(int billId) throws Exception{
         logger.info(Constant.BEGIN + "getInfoOfBill");
         try {
-            Bill bill = billRepository.findById(billId).orElse(null);
-            if(bill == null){
-                throw new Exception("Bill is null");
-            }
-            List<BillInfo> infoList = billInfoRepository.findByBillIdAndCountGreaterThan(bill.getId(), 0);
+            List<BillInfo> infoList = billInfoRepository.findByBillIdAndCountGreaterThan(billId, 0);
             List<BillInfoDTO> infoDTOList = new ArrayList<>();
             for(BillInfo info : infoList){
                 Drink drink = drinkRepository.findById(info.getDrinkId()).orElse(null);
@@ -95,9 +91,7 @@ public class ManagerService {
                 BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getName());
                 infoDTOList.add(billInfoDTO);
             }
-            BillResponseDTO dto = new BillResponseDTO(bill.getId() ,bill.getTableNumber(), bill.isPaided(), bill.getTotalPrice(), bill.getDiscount(),
-                    bill.getUsernameSatff(), bill.getCreateAt(), infoDTOList);
-            return dto;
+            return infoDTOList;
         }finally {
             logger.info(Constant.END + "getInfoOfBill");
         }

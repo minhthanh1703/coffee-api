@@ -1,6 +1,7 @@
 package group3.xavalocoffee.controller;
 
 import group3.xavalocoffee.constant.Constant;
+import group3.xavalocoffee.dto.BillInfoDTO;
 import group3.xavalocoffee.dto.BillResponseDTO;
 
 import group3.xavalocoffee.dto.DrinkOrderRequestDTO;
@@ -56,7 +57,7 @@ public class ManagerController {
         logger.info(Constant.BEGIN + "getInfoTable");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
-            BillResponseDTO dto = managerService.getInfoOfBill(billId);
+            List<BillInfoDTO> dto = managerService.getInfoOfBill(billId);
             response.setData(dto);
             return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception ex) {
