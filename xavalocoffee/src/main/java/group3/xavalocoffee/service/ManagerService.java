@@ -86,22 +86,16 @@ public class ManagerService {
             }
             List<BillInfo> infoList = billInfoRepository.findByBillIdAndCountGreaterThan(bill.getId(), 0);
             List<BillInfoDTO> infoDTOList = new ArrayList<>();
-            float totalPrice = 0;
-
             for(BillInfo info : infoList){
                 Drink drink = drinkRepository.findById(info.getDrinkId()).orElse(null);
                 if(drink.equals(null)){
                     throw new Exception("DrinkID not found");
                 }
                 float subPrice = drink.getPrice() *  info.getCount();
-                totalPrice = totalPrice + subPrice;
-                BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getImage());
+                BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getName());
                 infoDTOList.add(billInfoDTO);
             }
-            //tong tien da tru giam gia
-            totalPrice = totalPrice *(1- (bill.getDiscount()/100));
-
-            BillResponseDTO dto = new BillResponseDTO(bill.getId() ,bill.getTableNumber(), bill.isPaided(), totalPrice, bill.getDiscount(),
+            BillResponseDTO dto = new BillResponseDTO(bill.getId() ,bill.getTableNumber(), bill.isPaided(), bill.getTotalPrice(), bill.getDiscount(),
                     bill.getUsernameSatff(), bill.getCreateAt(), infoDTOList);
             return dto;
         }finally {
