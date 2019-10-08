@@ -6,6 +6,7 @@ public class BillInfoDTO extends BillInfo {
     private int billInfoId;
     private float subPrice;
     private String image;
+    private String name;
 
 
     public BillInfoDTO() {
@@ -16,6 +17,14 @@ public class BillInfoDTO extends BillInfo {
         this.subPrice = subPrice;
         this.image = image;
         this.billInfoId = billInfoId;
+    }
+
+    public BillInfoDTO(int billInfoId, int billId, int drinkId, int count, float subPrice, String image, String name) {
+        super(billId, drinkId, count);
+        this.subPrice = subPrice;
+        this.image = image;
+        this.billInfoId = billInfoId;
+        this.name = name;
     }
 
     public float getSubPrice() {
@@ -40,5 +49,15 @@ public class BillInfoDTO extends BillInfo {
 
     public void setBillInfoId(int billInfoId) {
         this.billInfoId = billInfoId;
+    }
+
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

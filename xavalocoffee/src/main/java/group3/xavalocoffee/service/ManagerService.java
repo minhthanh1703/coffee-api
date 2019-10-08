@@ -63,7 +63,7 @@ public class ManagerService {
                 }
                 float subPrice = drink.getPrice() *  info.getCount();
                 totalPrice = totalPrice + subPrice;
-                BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getImage());
+                BillInfoDTO billInfoDTO = new BillInfoDTO(info.getId() ,info.getBillId(), info.getDrinkId(), info.getCount(), subPrice, drink.getImage(), drink.getName());
                 infoDTOList.add(billInfoDTO);
             }
             //tong tien da tru giam gia
