@@ -293,7 +293,7 @@ public class ManagerService {
     public List<Bill> getBillByUsername(String username){
         logger.info(Constant.BEGIN + "getBillByUsername");
         try {
-            List<Bill> listBill = billRepository.findByUsernameSatff(username);
+            List<Bill> listBill = billRepository.findByUsernameSatffOrderByCreateAtDesc(username);
             return listBill;
         }finally {
             logger.info(Constant.END + "getBillByUsername");
