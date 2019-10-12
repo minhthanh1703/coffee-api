@@ -8,5 +8,5 @@ import java.util.List;
 public interface BillRepository extends JpaRepository<Bill, Integer> {
     Bill findByTableNumberAndPaided(int tableNumber, boolean paided);
 
-    List<Bill> findByUsernameSatff(String username);
+    List<Bill> findByUsernameSatffOrderByCreateAtDesc(String username);
 }
