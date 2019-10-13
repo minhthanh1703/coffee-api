@@ -126,7 +126,7 @@ public class ManagerController {
     }
 
     @PutMapping(Constant.MANAGER_API + "/switchTables/{tableNumberFrom}/{tableNumberTo}")
-    public ResponseEntity switchTables(int tableNumberFrom, int tableNumberTo) {
+    public ResponseEntity switchTables(@PathVariable int tableNumberFrom,@PathVariable int tableNumberTo) {
         logger.info(Constant.BEGIN + "switchTables");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
