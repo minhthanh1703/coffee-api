@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TableRepository extends JpaRepository<tTable, Integer> {
     List<tTable> findAll();
-
+    
     tTable findByTableNumber(int id);
 
 

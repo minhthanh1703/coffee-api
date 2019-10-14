@@ -226,7 +226,7 @@ public class ManagerService {
         }
     }
 
-    public void removeDrink(int billInfoId) throws Exception{
+    public void removeDrink(int billInfoId, boolean isLastItem) throws Exception{
         logger.info(Constant.BEGIN + "removeDrink");
         try {
             BillInfo billInfo = billInfoRepository.findById(billInfoId).orElse(null);
@@ -235,8 +235,41 @@ public class ManagerService {
             }
             billInfo.setCount(0);
             billInfoRepository.save(billInfo);
+            if(isLastItem) {
+                checkRemoveAllDrink(billInfo.getBillId());
+            }
         }finally {
             logger.info(Constant.END + "removeDrink");
+        }
+    }
+
+    private void checkRemoveAllDrink(int billId)throws Exception{
+        logger.info(Constant.BEGIN + "removeAllDrink");
+        try {
+            boolean check = false;
+
+            Bill bill = billRepository.findById(billId).orElse(null);
+            if(bill == null){
+                throw new Exception("Bill is null");
+            }else{
+                List<BillInfo> infoList = billInfoRepository.findByBillIdAndCountGreaterThan(billId, 0);
+                if(infoList == null ||infoList.size()==0){
+                    check = true;
+                }
+            }
+            if(check){
+                bill.setPaided(true);
+                tTable table = tableRepository.findByTableNumber(bill.getTableNumber());
+                if(table == null){
+                    throw new Exception("Bill Info is null");
+                }else{
+                    table.setStatus(false);
+                }
+                billRepository.save(bill);
+                tableRepository.save(table);
+            }
+        }finally {
+            logger.info(Constant.END + "removeAllDrink");
         }
     }
 
