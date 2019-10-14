@@ -143,12 +143,12 @@ public class ManagerController {
         }
     }
 
-    @DeleteMapping(Constant.MANAGER_API + "/removeDrink/{billInfoId}")
-    public ResponseEntity removeDrink(@PathVariable int billInfoId) {
+    @DeleteMapping(Constant.MANAGER_API + "/removeDrink/{billInfoId}/{isLastItem}")
+    public ResponseEntity removeDrink(@PathVariable int billInfoId, @PathVariable boolean isLastItem) {
         logger.info(Constant.BEGIN + "removeDrink");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
-            managerService.removeDrink(billInfoId);
+            managerService.removeDrink(billInfoId, isLastItem);
             response.setMessage("Removed drink from table");
             return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception ex) {
