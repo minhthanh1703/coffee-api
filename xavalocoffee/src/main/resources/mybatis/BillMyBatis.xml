@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="group3.xavalocoffee.mybatisrepository.BillMyBatisRepository">
+
+    <parameterMap id="getBillByUsernameAndPageParam" type="java.util.Map">
+        <parameter property="username" javaType="java.lang.String"/>
+        <parameter property="from" javaType="int"/>
+        <parameter property="to" javaType="int"/>
+    </parameterMap>
+
+    <resultMap id="getBillByUsernameAndPageResult" type="group3.xavalocoffee.entities.Bill">
+        <result property="id" column="bill_id"/>
+        <result property="tableNumber" column="table_number"/>
+        <result property="paided" column="paided"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="discount" column="discount"/>
+        <result property="usernameSatff" column="username_staff"/>
+        <result property="createAt" column="created_at"/>
+
+    </resultMap>
+
+    <select id="getBillByUsernameAndPage" resultMap="getBillByUsernameAndPageResult" parameterMap="getBillByUsernameAndPageParam">
+        SELECT
+            bill.bill_id,
+            bill.table_number,
+            bill.paided,
+            bill.discount,
+            bill.total_price,
+            bill.username_staff,
+            bill.created_at
+        FROM (
+            SELECT
+                *, ROW_NUMBER() OVER (ORDER BY dbo.tbl_bill.created_at DESC) AS RowNum
+            FROM dbo.tbl_bill WHERE username_staff = #{username}
+        ) AS bill
+        WHERE
+            bill.RowNum BETWEEN #{from} AND #{to}
+    </select>
+
+</mapper>

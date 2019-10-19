@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -200,13 +201,13 @@ public class ManagerController {
     }
 
     @GetMapping(Constant.MANAGER_API + "/getbill")
-    public ResponseEntity statisticByUsername(@RequestHeader String Authorization) {
+    public ResponseEntity statisticByUsername(@RequestHeader String Authorization, @RequestParam int pageNumber) {
         logger.info(Constant.BEGIN + "statisticByUsername");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
             String token = Authorization.substring(7);
             String username = JWTVerifier.getDecodedJWT(token).getSubject();
-            List<Bill> billList = managerService.getBillByUsername(username);
+            List<Bill> billList = managerService.getBillByUsername(username, pageNumber);
 
             response.setData(billList);
             return new ResponseEntity(response, HttpStatus.OK);

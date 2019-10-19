@@ -1,6 +1,7 @@
 package group3.xavalocoffee;
 
 import com.google.common.collect.Lists;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @SpringBootApplication
 @EnableSwagger2
+//@MapperScan("group3.xavalocoffee.mybatisrepository")
 public class XavalocoffeeApplication {
 
     @Bean
