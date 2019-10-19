@@ -123,6 +123,9 @@ public class ManagerService {
         try {
             int tableNumber = requestDTO.getTableNumber();
             List<DrinkOrderDTO> listDrinkOrder = requestDTO.getListDrink();
+            if(listDrinkOrder.size()== 0){
+                throw new Exception("List drink is empty");
+            }
             //check table co dang trong hay khong
             tTable table = tableService.findByTableNumber(tableNumber);
             if(table == null){
