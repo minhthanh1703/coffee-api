@@ -10,7 +10,6 @@ import group3.xavalocoffee.entities.BillInfo;
 import group3.xavalocoffee.entities.Drink;
 import group3.xavalocoffee.entities.tTable;
 import group3.xavalocoffee.repository.BillInfoRepository;
-import group3.xavalocoffee.mybatisrepository.BillMyBatisRepository;
 import group3.xavalocoffee.repository.BillRepository;
 import group3.xavalocoffee.repository.DrinkRepository;
 import group3.xavalocoffee.repository.TableRepository;
@@ -41,9 +40,6 @@ public class ManagerService {
 
     @Autowired
     TableService tableService;
-
-    @Autowired
-    BillMyBatisRepository billMyBatisRepository;
 
     public BillResponseDTO getInfoOfTable(int tableNumber) throws Exception{
         logger.info(Constant.BEGIN + "getInfoOfTable");
@@ -330,16 +326,16 @@ public class ManagerService {
         }
     }
 
-    public List<Bill> getBillByUsername(String username, int pageNumber)throws Exception{
+    public List<Bill> getBillByUsername(String username)throws Exception{
         logger.info(Constant.BEGIN + "getBillByUsername");
         try {
-//            List<Bill> listBill = billRepository.findByUsernameSatffOrderByCreateAtDesc(username);
-            if(pageNumber < 1){
-                throw new Exception("PageNumber must > 1");
-            }
-            int to = pageNumber * 10;
-            int from = to - 9;
-            List<Bill> listBill = billMyBatisRepository.getBillByUsernameAndPage(username, from, to);
+            List<Bill> listBill = billRepository.findByUsernameSatffOrderByCreateAtDesc(username);
+//            if(pageNumber < 1){
+//                throw new Exception("PageNumber must > 1");
+//            }
+//            int to = pageNumber * 10;
+//            int from = to - 9;
+//            List<Bill> listBill = billMyBatisRepository.getBillByUsernameAndPage(username, from, to);
             return listBill;
         }finally {
             logger.info(Constant.END + "getBillByUsername");
