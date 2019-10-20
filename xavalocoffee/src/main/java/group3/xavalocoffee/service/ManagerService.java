@@ -334,7 +334,7 @@ public class ManagerService {
         logger.info(Constant.BEGIN + "getBillByUsername");
         try {
 //            List<Bill> listBill = billRepository.findByUsernameSatffOrderByCreateAtDesc(username);
-            if(pageNumber > 1){
+            if(pageNumber < 1){
                 throw new Exception("PageNumber must > 1");
             }
             int to = pageNumber * 10;
