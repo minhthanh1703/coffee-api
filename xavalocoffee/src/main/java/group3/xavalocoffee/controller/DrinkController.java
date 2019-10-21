@@ -1,7 +1,6 @@
 package group3.xavalocoffee.controller;
 
 import group3.xavalocoffee.constant.Constant;
-import group3.xavalocoffee.dto.DrinkOrderDTO;
 import group3.xavalocoffee.dto.ServiceResponseDTO;
 import group3.xavalocoffee.entities.Drink;
 import group3.xavalocoffee.service.DrinkService;
@@ -31,6 +30,24 @@ public class DrinkController {
 
     @GetMapping(Constant.DRINK_API)
     public ResponseEntity<ServiceResponseDTO> findAllDrink() {
+        logger.info(Constant.BEGIN + "findAllDrink");
+        ServiceResponseDTO response = new ServiceResponseDTO();
+        try {
+            List<Drink> listDrink = drinkService.findAllDrinkAndDisable();
+            response.setData(listDrink);
+            return new ResponseEntity(response, HttpStatus.OK);
+        } catch (Exception ex) {
+            logger.error(ex);
+            response.setMessage(ex.getMessage());
+            response.setStatus(ServiceResponseDTO.Status.FAILED);
+            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+        } finally {
+            logger.info(Constant.END + "findAllDrink");
+        }
+    }
+
+    @GetMapping(Constant.DRINK_API+"2")
+    public ResponseEntity<ServiceResponseDTO> findAllDrink2() {
         logger.info(Constant.BEGIN + "findAllDrink");
         ServiceResponseDTO response = new ServiceResponseDTO();
         try {
