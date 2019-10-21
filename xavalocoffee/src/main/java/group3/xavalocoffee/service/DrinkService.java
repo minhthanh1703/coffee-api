@@ -1,7 +1,6 @@
 package group3.xavalocoffee.service;
 
 import group3.xavalocoffee.constant.Constant;
-import group3.xavalocoffee.dto.DrinkOrderDTO;
 import group3.xavalocoffee.entities.Drink;
 import group3.xavalocoffee.repository.DrinkRepository;
 import org.apache.log4j.Logger;
@@ -18,6 +17,15 @@ public class DrinkService {
     @Autowired
     DrinkRepository drinkRepository;
 
+    public List<Drink> findAllDrinkAndDisable() {
+        logger.info(Constant.BEGIN + "findAllDrinkAndDisable");
+        try {
+            return drinkRepository.findAllByDisable(false);
+        } finally {
+            logger.info(Constant.END + "findAllDrinkAndDisable");
+        }
+    }
+
     public List<Drink> findAllDrink() {
         logger.info(Constant.BEGIN + "findAllDrink");
         try {
@@ -26,6 +34,8 @@ public class DrinkService {
             logger.info(Constant.END + "findAllDrink");
         }
     }
+
+
 
     public List<Drink> findDrinkByCategory(int categoryId) {
         logger.info(Constant.BEGIN + "findAllDrinkByCategory");
